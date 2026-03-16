@@ -20,7 +20,7 @@ pipeline {
                 bat 'mvn clean compile'
             }
         }
-        stage('Build') {
+        stage('Test') {
             steps {
                 // We removed the 'dir' block because Jenkins is already 
                 // inside your workspace folder by default.
