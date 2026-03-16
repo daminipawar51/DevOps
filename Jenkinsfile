@@ -4,14 +4,12 @@ pipeline {
     tools {
         // These names must match what you configured in Global Tool Configuration
         maven "MAVEN1" 
-        jdk "JDK"
     }
 
     stages {
-        stage('Initialize') {
+        stage('Checkout') {
             steps {
-                // On Windows, use 'bat' and Windows environment variable syntax
-                bat "echo Current Path is %PATH%"
+               checkout scm
             }
         }
         
@@ -19,18 +17,18 @@ pipeline {
             steps {
                 // We removed the 'dir' block because Jenkins is already 
                 // inside your workspace folder by default.
-                bat 'mvn -B -DskipTests clean package'
+                bat 'mvn clean compile'
             }
         }
+        stage('Build') {
+            steps {
+                // We removed the 'dir' block because Jenkins is already 
+                // inside your workspace folder by default.
+                bat 'mvn test'
     }
     
-    post {
-        always {
-            // Updated pattern to standard Maven surefire report location
-            junit(
-                allowEmptyResults: true, 
-                testResults: '**/target/surefire-reports/*.xml'
+  
             )
         }
-    }
-}
+    
+
